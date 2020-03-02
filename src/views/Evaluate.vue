@@ -91,7 +91,7 @@ export default {
   // 不要把vuex的值保存在自己的data内!因为他是一个独立的数据存在
   computed: {
     getEvlutate() {
-      console.log(this.$store.state.evlutate);
+      // console.log(this.$store.state.evlutate);
       return this.$store.state.evlutate;
     }
   },

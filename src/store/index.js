@@ -58,8 +58,8 @@ export default new Vuex.Store({
        changeStores(state,data){
         state.stores=data;
        },
-    }
-});
+    },
+
 // mutation函数必须手动触发
 // 参数1：要触发的mutation的名字，参数2：要传入的参数
 // store.commit("changeName","雅雅");  //触发一个mutation
@@ -67,7 +67,20 @@ export default new Vuex.Store({
 // console.log(store.state.name);
 
 // vuex版的计算属性（和computed原理一样）getter是属于vuex,computed属于vue
-/* getters:{
-    // getter和mutation一样，每一个getter函数
-   
-} */
+    // 点击+
+
+getters:{
+    // 购物车列表
+    shopList(state){
+      var arr=[];
+      for (let i of state.goodList) {
+          i.foods.map((v)=>{
+              if(v.num>0 && v.num!=0){
+                  arr.push({name:v.name, count:v.num, price:v.price})
+              }
+          })
+          return arr;
+      }
+   }
+}
+});

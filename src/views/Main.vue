@@ -22,7 +22,11 @@
        <router-view></router-view>
 
        <!-- 购物车蒙版 -->
-       <div class="shopBorder" v-show="shopCarshow"></div>
+       <div class="shopBorder" v-show="shopCarshow">
+         <div class="content">
+           <ShopCar/>
+         </div>
+       </div>
        <!--购物车  -->
        <div class="shopCar" @click="shopCarshow=!shopCarshow">
             <div >
@@ -45,11 +49,15 @@
 
 <script>
 import { getSeller } from "../api/apis.js";
+import ShopCar from "./ShopCar";
 export default {
+  components: {
+    ShopCar: ShopCar
+  },
   data() {
     return {
       list: [],
-      shopCarshow:false, //是否显示购物车板子
+      shopCarshow: false //是否显示购物车板子
     };
   },
   created() {
@@ -57,6 +65,11 @@ export default {
     getSeller().then(v => {
       this.list = v.data.data;
     });
+  },
+  computed: {
+    goodList() {
+      return this.$store.state.goodList;
+    }
   }
 };
 </script>
@@ -75,13 +88,13 @@ export default {
     color: black;
     position: relative;
     img {
-      z-index: 200;
+      z-index: 100;
       margin-left: 20px;
     }
     .right {
       margin-left: 20px;
       margin-top: 10px;
-      z-index: 200;
+      z-index: 100;
     }
     .translucent {
       background-color: rgba(255, 255, 255, 0.5);
@@ -101,14 +114,24 @@ export default {
     margin-bottom: 10px;
     width: 100%;
   }
-  .shopBorder{
+  .shopBorder {
     position: fixed;
     bottom: 60px;
     left: 0;
-    height: 200px;
+    height: 100%;
     width: 100%;
-    background-color: rgba(042,053,058 ,0.5);
-
+    background-color: rgba(042, 053, 058, 0.5);
+    z-index: 200;
+    .content {
+      height: 200px;
+      background-color: #fff;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 15px;
+      overflow: scroll;
+    }
   }
   .shopCar {
     height: 60px;
@@ -121,7 +144,7 @@ export default {
     justify-content: space-around;
     text-align: center;
     line-height: 60px;
-    .icon{
+    .icon {
       width: 50px;
       height: 50px;
       background-color: black;
@@ -131,15 +154,15 @@ export default {
       left: 26px;
       border-radius: 50%;
     }
-    span{
+    span {
       padding-left: 80px;
     }
-    .right{
-     padding-right:30px;  
+    .right {
+      padding-right: 30px;
     }
   }
 }
-.bg042{
-  background-color: rgb(042, 053 ,058);
+.bg042 {
+  background-color: rgb(042, 053, 058);
 }
 </style>
